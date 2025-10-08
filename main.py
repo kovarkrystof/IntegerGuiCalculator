@@ -1,148 +1,138 @@
-"""
-1.	Vytvořte jednoduchou celočíselnou kalkulačku 
-2.	Pro vstupy a tlačítka použijte 3 komponenty Frame s neviditelným ohraničením 
-3.	Entry pro výsledek nastavte jako readonly, aby do něj uživatel nemohl zapisovat
-4.	Do Entry vkládejte výsledek pomocí proměnné StringVar()
-5.	Tlačítko // provádí celočíselné dělení a % provádí zbytek po dělení. Nazapomeňte na ošetření dělení nulou u těchto dvou operací!
-6.	Přidejte ošetření vstupů pomocí příkazu try a zobrazení hlášky messagebox.
-"""
+#Create a simple integer calculator.
+#Use 3 Frame components with an invisible border for the inputs and buttons.
+#Set the result Entry to readonly, so the user cannot write into it.
+#Insert the result into the Entry using a StringVar() variable.
+#The // button performs integer division and the % button performs the remainder of the division (modulo). Don't forget to handle division by zero for these two operations!
+#Add input handling using a try-except block and display a messagebox on error.
+
 
 from tkinter import *
 from tkinter import messagebox
 
-main=Tk()
-main.title("Celočíselná kalkulačka")
-main.geometry("350x450")
+# Main window setup
+root = Tk()
+root.title("Integer Calculator")
+root.geometry("350x450")
 
+# Heading
+heading_label = Label(root, text="Calculator", font="Arial 24 bold")
+heading_label.pack()
 
-# Nadpis
-heading = Label(main, text="Kalkulačka", font="Arial 24 bold")
-heading.pack()
+# --- First Number Input ---
+frame_num1 = Frame(root, padx=10, pady=10)
+frame_num1.pack()
+label_num1 = Label(frame_num1, text="1st Number:")
+label_num1.pack(side="left")
+entry_num1 = Entry(frame_num1)
+entry_num1.pack(side="left")
 
+# --- Second Number Input ---
+frame_num2 = Frame(root, padx=10, pady=10)
+frame_num2.pack()
+label_num2 = Label(frame_num2, text="2nd Number:")
+label_num2.pack(side="left")
+entry_num2 = Entry(frame_num2)
+entry_num2.pack(side="left")
 
-# První číslo
-Frame1 = Frame(main, padx=10, pady=10)
-Frame1.pack()
-number1 = Label(Frame1, text="1. Číslo:")
-number1.pack(side="left")
-input1 = Entry(Frame1)
-input1.pack(side="left")
-
-
-# Druhé číslo
-Frame2 = Frame(main, padx=10, pady=10)
-Frame2.pack()
-number2 = Label(Frame2, text="2. Číslo:")
-number2.pack(side="left")
-input2 = Entry(Frame2)
-input2.pack(side="left")
-
-
-# Funkce pro výpočty
-def Plus():
+# --- Calculation Functions ---
+def add():
     try:
-        a = int(input1.get())
-        b = int(input2.get())
+        a = int(entry_num1.get())
+        b = int(entry_num2.get())
         result = a + b
-        resultVar.set(str(result))
-    except:
-        messagebox.showerror("Chyba","Pozor, hodnota není číslo!")
-        resultVar.set("")
-        input1.delete(0,END)
-        input2.delete(0,END)
+        result_var.set(str(result))
+    except ValueError:
+        messagebox.showerror("Error", "Attention, the value is not a number!")
+        result_var.set("")
+        entry_num1.delete(0, END)
+        entry_num2.delete(0, END)
 
-
-def Minus():
+def subtract():
     try:
-        a = int(input1.get())
-        b = int(input2.get())
+        a = int(entry_num1.get())
+        b = int(entry_num2.get())
         result = a - b
-        resultVar.set(str(result))
-    except:
-        messagebox.showerror("Chyba","Pozor, hodnota není číslo!")
-        resultVar.set("")
-        input1.delete(0,END)
-        input2.delete(0,END)
+        result_var.set(str(result))
+    except ValueError:
+        messagebox.showerror("Error", "Attention, the value is not a number!")
+        result_var.set("")
+        entry_num1.delete(0, END)
+        entry_num2.delete(0, END)
 
-
-def Times():
+def multiply():
     try:
-        a = int(input1.get())
-        b = int(input2.get())
+        a = int(entry_num1.get())
+        b = int(entry_num2.get())
         result = a * b
-        resultVar.set(str(result))
-    except:
-        messagebox.showerror("Chyba","Pozor, hodnota není číslo!")
-        resultVar.set("")
-        input1.delete(0,END)
-        input2.delete(0,END)
+        result_var.set(str(result))
+    except ValueError:
+        messagebox.showerror("Error", "Attention, the value is not a number!")
+        result_var.set("")
+        entry_num1.delete(0, END)
+        entry_num2.delete(0, END)
 
-
-def IntegerDivide():
+def integer_divide():
     try:
-        a = int(input1.get())
-        b = int(input2.get())
+        a = int(entry_num1.get())
+        b = int(entry_num2.get())
         if b == 0:
-            messagebox.showwarning("Výstraha","Pozor, dělení nulou není povoleno!")
-            resultVar.set("")
-            input2.delete(0,END)
+            messagebox.showwarning("Warning", "Attention, division by zero is not allowed!")
+            result_var.set("")
+            entry_num2.delete(0, END)
         else:
             result = a // b
-            resultVar.set(str(result))
-    except:
-        messagebox.showerror("Chyba","Pozor, hodnota není číslo!")
-        resultVar.set("")
-        input1.delete(0,END)
-        input2.delete(0,END)
-        
+            result_var.set(str(result))
+    except ValueError:
+        messagebox.showerror("Error", "Attention, the value is not a number!")
+        result_var.set("")
+        entry_num1.delete(0, END)
+        entry_num2.delete(0, END)
 
-def Modulo():
+def modulo():
     try:
-        a = int(input1.get())
-        b = int(input2.get())
+        a = int(entry_num1.get())
+        b = int(entry_num2.get())
         if b == 0:
-            messagebox.showwarning("Výstraha","Pozor, dělení nulou není povoleno!")
-            resultVar.set("")
-            input2.delete(0,END)
+            messagebox.showwarning("Warning", "Attention, division by zero is not allowed!")
+            result_var.set("")
+            entry_num2.delete(0, END)
         else:
             result = a % b
-            resultVar.set(str(result))
-    except:
-        messagebox.showerror("Chyba","Pozor, hodnota není číslo!")
-        resultVar.set("")
-        input1.delete(0,END)
-        input2.delete(0,END)
+            result_var.set(str(result))
+    except ValueError:
+        messagebox.showerror("Error", "Attention, the value is not a number!")
+        result_var.set("")
+        entry_num1.delete(0, END)
+        entry_num2.delete(0, END)
 
+# Variable to hold the result
+result_var = StringVar()
+result_var.set("")
 
-resultVar = StringVar()
-resultVar.set("")
+# --- Operation Buttons ---
+operations_frame = Frame(root, padx=10, pady=10)
+operations_frame.pack()
 
+button_add = Button(operations_frame, text="+", width=5, command=add)
+button_add.pack(side="left")
+button_subtract = Button(operations_frame, text="-", width=5, command=subtract)
+button_subtract.pack(side="left")
+button_multiply = Button(operations_frame, text="*", width=5, command=multiply)
+button_multiply.pack(side="left")
+button_integer_divide = Button(operations_frame, text="//", width=5, command=integer_divide)
+button_integer_divide.pack(side="left")
+button_modulo = Button(operations_frame, text="%", width=5, command=modulo)
+button_modulo.pack(side="left")
 
-# Tlačítka početních operací
-Frame3 = Frame(main, padx=10, pady=10)
-Frame3.pack()
-buttonPlus = Button(Frame3, text="+", width=5, command=Plus)
-buttonPlus.pack(side="left")
-buttonMinus = Button(Frame3, text="-", width=5, command=Minus)
-buttonMinus.pack(side="left")
-buttonTimes = Button(Frame3, text="*", width=5, command=Times)
-buttonTimes.pack(side="left")
-buttonIntegerDivide = Button(Frame3, text="//", width=5, command=IntegerDivide)
-buttonIntegerDivide.pack(side="left")
-buttonModulo = Button(Frame3, text="%", width=5, command=Modulo)
-buttonModulo.pack(side="left")
+# --- Result Display ---
+result_frame = LabelFrame(root, text="Result", padx=10, pady=10)
+result_frame.pack()
+result_entry = Entry(result_frame, state="readonly", textvariable=result_var)
+result_entry.pack(side="left")
 
+# --- Exit Button ---
+exit_button = Button(root, text="Exit", command=root.destroy, padx=10, pady=10)
+exit_button.pack()
 
-# Výsledek
-Frame4 = LabelFrame(main, text="Výsledek",  padx=10, pady=10)
-Frame4.pack()
-resultEntry = Entry(Frame4, state="readonly", textvariable=resultVar)
-resultEntry.pack(side="left")
-
-
-# Konec
-end = Button(main, text="Konec", command=main.destroy, padx=10, pady=10)
-end.pack()
-
-
-mainloop()
+# Start the main event loop
+root.mainloop()
